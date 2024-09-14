@@ -1,0 +1,53 @@
+﻿@model IEnumerable<CompanySystemDataAccessLayer.Models.Employee>
+
+@{
+    ViewData["Title"] = "Employees List";
+}
+
+<h1>Employees</h1>
+
+<!-- Link to Create a New Employee -->
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New Employee</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Address</th>
+            <th>Email</th>
+            <th>Salary</th>
+            <th>Phone Number</th>
+            <th>Is Active?</th>
+            <th>Hire Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var employee in Model)
+        {
+            <tr>
+                <td>@employee.Id</td>
+                <td>@employee.Name</td>
+                <td>@employee.Age</td>
+                <td>@employee.Address</td>
+                <td>@Html.DisplayFor(M => @employee.Email)</td>
+                <td>@employee.Salary</td>
+                <td>@employee.PhoneNumber</td>
+                <td>@Html.DisplayFor(M => @employee.IsActive)</td>
+                <td>@employee.HireDate.ToShortDateString()</td>
+                <td>
+                    <!-- Link to Details -->
+                    <a asp-action="Details" asp-route-id="@employee.Id" class="btn btn-info">Details</a>
+                    <!-- Link to Edit -->
+                    <a asp-action="Edit" asp-route-id="@employee.Id" class="btn btn-warning">Edit</a>
+                    <!-- Link to Delete -->
+                    <a asp-action="Delete" asp-route-id="@employee.Id" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

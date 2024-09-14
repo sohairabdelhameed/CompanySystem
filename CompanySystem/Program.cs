@@ -1,4 +1,5 @@
 using CompanySystem.Data.Context;
+using CompanySystemBLL.Interface;
 using CompanySystemBLL.Repository;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,13 +15,22 @@ namespace CompanySystem
             builder.Services.AddControllersWithViews();
             //builder.Services.AddScoped<AddDbContext>();
 
-            builder.Services.AddDbContext<AddDbContext>(options =>
+            builder.Services.AddDbContext<AppDbContext>(options =>
             {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
-            });  
-            
-            
+                options.UseSqlServer(builder.Configuration.GetConnectionString("Default"), sqlOptions =>
+                {
+                    sqlOptions.EnableRetryOnFailure(
+                        maxRetryCount: 5, // Number of retry attempts (optional)
+                        maxRetryDelay: TimeSpan.FromSeconds(10), // Delay between retries (optional)
+                        errorNumbersToAdd: null // Optional: Specify error numbers to retry on
+                    );
+                });
+            });
+
+
+
             builder.Services.AddScoped<DepartmentRepository>();
+            builder.Services.AddScoped<EmployeeRepository>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -40,7 +50,7 @@ namespace CompanySystem
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Department}/{action=Index}/{id?}");
 
             app.Run();
         }

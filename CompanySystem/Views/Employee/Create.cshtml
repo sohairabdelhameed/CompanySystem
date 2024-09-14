@@ -1,0 +1,22 @@
+﻿@model CompanySystemDataAccessLayer.Models.Employee
+
+@{
+    ViewData["Title"] = "Create Employee";
+}
+
+<h1>Create Employee</h1>
+
+<h4>Employee</h4>
+<hr />
+
+<form asp-action="Create">
+
+    <partial name="PartialView/EditCreateEmployeePartialView" model="Model"/>
+
+  
+    <div class="form-group">
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+</form>
+
+<a asp-action="Index" class="btn btn-secondary">Back to List</a>

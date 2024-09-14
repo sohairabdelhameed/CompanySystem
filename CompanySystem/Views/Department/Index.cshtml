@@ -1,7 +1,42 @@
-﻿
+﻿@model IEnumerable<Department>
+
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Departments List";
 }
 
-<h1>Index</h1>
+<h1>Departments</h1>
 
+<!-- Link to Create a New Department -->
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New Department</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Department Code</th>
+            <th>Department Name</th>
+            <th>Actions</th> <!-- Column for Edit and Delete actions -->
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var department in Model)
+        {
+            <tr>
+                <td>@department.Id</td>
+                <td>@department.Code</td>
+                <td>@department.Name</td>
+                <td>
+                    <!-- Link to Delete -->
+                    <a asp-action="Details" asp-route-id="@department.Id" class="btn btn-info">Details</a>
+                    <!-- Link to Edit -->
+                    <a asp-action="Edit" asp-route-id="@department.Id" class="btn btn-warning">Edit</a>
+
+                    <!-- Link to Delete -->
+                    <a asp-action="Delete" asp-route-id="@department.Id" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,45 +1,46 @@
 ﻿using CompanySystem.Models;
 using CompanySystemBLL.Repository;
+using CompanySystemDataAccessLayer.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CompanySystem.Controllers
 {
-    public class DepartmentController : Controller
+    public class EmployeeController : Controller
     {
-        private readonly DepartmentRepository departmentRepository;
+        private readonly EmployeeRepository _employeeRepository;
 
-        public DepartmentController(DepartmentRepository departmentRepository)
+        public EmployeeController(EmployeeRepository employeeRepository)
         {
-            this.departmentRepository = departmentRepository;
+            _employeeRepository = employeeRepository;
         }
 
-        // Index - List all departments
+        // Index - List all employees
         public IActionResult Index()
         {
-            var departments = departmentRepository.GetAll();
-            return View(departments);
+            var employees = _employeeRepository.GetAll();
+            return View(employees);
         }
 
-        // Create - Display the form to create a department
+        // Create - Display the form to create an employee
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Create - Add a new department
+        // POST: Create - Add a new employee
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Department department)
+        public IActionResult Create(Employee employee)
         {
             if (ModelState.IsValid)
             {
-                departmentRepository.Add(department);
+                _employeeRepository.Add(employee);
                 return RedirectToAction(nameof(Index));
             }
-            return View(department);
+            return View(employee);
         }
 
-        // Details - View a department's details by id
+        // Details - View an employee's details by id
         public IActionResult Details(int? id)
         {
             if (id == null)
@@ -47,16 +48,16 @@ namespace CompanySystem.Controllers
                 return NotFound();
             }
 
-            var department = departmentRepository.Get(id.Value);
-            if (department == null)
+            var employee = _employeeRepository.Get(id.Value);
+            if (employee == null)
             {
                 return NotFound();
             }
 
-            return View(department);
+            return View(employee);
         }
 
-        // Edit - Display the form to edit a department
+        // Edit - Display the form to edit an employee
         public IActionResult Edit(int? id)
         {
             var result = Details(id);  // Reuse Details method
@@ -65,29 +66,29 @@ namespace CompanySystem.Controllers
                 return result;
             }
 
-            return View((Department)((ViewResult)result).Model);
+            return View((Employee)((ViewResult)result).Model);
         }
 
-        // POST: Edit - Update a department
+        // POST: Edit - Update an employee
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, Department department)
+        public IActionResult Edit(int id, Employee employee)
         {
-            if (id != department.Id)
+            if (id != employee.Id)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
-                departmentRepository.Update(department);
+                _employeeRepository.Update(employee);
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(department);
+            return View(employee);
         }
 
-        // Delete - Display the confirmation view to delete a department
+        // Delete - Display the confirmation view to delete an employee
         public IActionResult Delete(int? id)
         {
             var result = Details(id);  // Reuse Details method
@@ -96,18 +97,18 @@ namespace CompanySystem.Controllers
                 return result;
             }
 
-            return View((Department)((ViewResult)result).Model);
+            return View((Employee)((ViewResult)result).Model);
         }
 
-        // POST: Delete - Remove a department
+        // POST: Delete - Remove an employee
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
-            var department = departmentRepository.Get(id);
-            if (department != null)
+            var employee = _employeeRepository.Get(id);
+            if (employee != null)
             {
-                departmentRepository.Delete(department);
+                _employeeRepository.Delete(employee);
             }
             return RedirectToAction(nameof(Index));
         }
