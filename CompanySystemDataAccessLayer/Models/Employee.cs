@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CompanySystem.Models;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace CompanySystemDataAccessLayer.Models
@@ -37,6 +38,7 @@ namespace CompanySystemDataAccessLayer.Models
         [Display(Name = "Hire Date")]
         public DateTime HireDate { get; set; }
 
-      
+        public int? WorkForId { get; set; } //fk
+      public Department WorkFor { get; set; }
     }
 }

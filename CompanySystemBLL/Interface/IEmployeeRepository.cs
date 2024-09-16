@@ -5,6 +5,7 @@ namespace CompanySystemBLL.Interface
 {
     public interface IEmployeeRepository : IGenericRepository<Employee>
     {
+        IEnumerable<Employee> SearchByName(string name);
         //// Get all employees
         //IEnumerable<Employee> GetAll();
 
@@ -20,6 +21,6 @@ namespace CompanySystemBLL.Interface
         //// Delete an employee
         //int Delete(int id);
 
-     
+
     }
 }

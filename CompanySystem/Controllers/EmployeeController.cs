@@ -1,29 +1,40 @@
 ﻿using CompanySystem.Models;
+using CompanySystemBLL.Interface;
 using CompanySystemBLL.Repository;
 using CompanySystemDataAccessLayer.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace CompanySystem.Controllers
 {
     public class EmployeeController : Controller
     {
-        private readonly EmployeeRepository _employeeRepository;
+        private readonly IEmployeeRepository _employeeRepository;
+        private readonly IDepartmentRepository _departmentRepository;
 
-        public EmployeeController(EmployeeRepository employeeRepository)
+        public EmployeeController(IEmployeeRepository employeeRepository, IDepartmentRepository departmentRepository)
         {
             _employeeRepository = employeeRepository;
+            
+            _departmentRepository = departmentRepository;
         }
 
-        // Index - List all employees
-        public IActionResult Index()
+        // Index - List all employees or search by name
+        public IActionResult Index(string searchName)
         {
-            var employees = _employeeRepository.GetAll();
+           
+            var employees = string.IsNullOrEmpty(searchName)
+                ? _employeeRepository.GetAll()
+                : _employeeRepository.SearchByName(searchName); // Add SearchByName method in the repository
+
             return View(employees);
         }
 
         // Create - Display the form to create an employee
         public IActionResult Create()
         {
+            //var department = _departmentRepository.GetAll(); // Extra Info
+            //ViewData["Departments"] = department;
             return View();
         }
 
@@ -34,7 +45,8 @@ namespace CompanySystem.Controllers
         {
             if (ModelState.IsValid)
             {
-                _employeeRepository.Add(employee);
+                var NewEmployee = _employeeRepository.Add(employee);
+                TempData["Message"] = NewEmployee != null ? "Employee created successfully" : "Failed to create employee";
                 return RedirectToAction(nameof(Index));
             }
             return View(employee);

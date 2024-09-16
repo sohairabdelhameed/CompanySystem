@@ -11,6 +11,6 @@ namespace CompanySystem.Models
       
         public string Code { get; set; }
 
-      
+      public ICollection<Employee> Employees { get; set; }              
     }
 }

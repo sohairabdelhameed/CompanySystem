@@ -6,10 +6,39 @@
 
 <h1>Employees</h1>
 
+<!-- Search Form -->
+<form method="get" asp-action="Index">
+    <div class="form-group">
+        <label for="searchName">Search by Name:</label>
+        <input type="text" id="searchName" name="searchName" class="form-control" placeholder="Enter employee name" />
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+    <a asp-action="Index" class="btn btn-secondary">Clear Search</a>
+</form>
+
+
 <!-- Link to Create a New Employee -->
 <p>
     <a asp-action="Create" class="btn btn-primary">Create New Employee</a>
 </p>
+<br/>
+<br/>
+@* <div class="alert alert-info">
+    <p>@ViewData["M1"]</p>
+</div>
+<div class="alert alert-warning">
+    <p>@ViewBag.Message</p>
+</div>
+<div class="alert alert-secondary">
+    <p>@TempData["M01"]</p>
+</div> *@
+
+@if (!string.IsNullOrEmpty(@TempData["Message"] as string))
+{
+    <div class="alert alert-success">
+        <p>@TempData["Message"]</p>
+    </div>
+}
 
 <table class="table table-striped">
     <thead>

@@ -29,8 +29,9 @@ namespace CompanySystem
 
 
 
-            builder.Services.AddScoped<DepartmentRepository>();
-            builder.Services.AddScoped<EmployeeRepository>();
+            builder.Services.AddScoped<IDepartmentRepository,DepartmentRepository>();
+         
+            builder.Services.AddScoped<IEmployeeRepository,EmployeeRepository>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
